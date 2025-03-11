@@ -17,6 +17,7 @@ class Users::Create < ActiveInteraction::Base
     user = User.new(
       name: name,
       patronymic: patronymic,
+      surname: surname,
       email: email,
       age: age,
       nationality: nationality,
@@ -32,7 +33,7 @@ class Users::Create < ActiveInteraction::Base
 
     # Добавление навыков
     processed_skills = skills.split(',').map(&:strip)
-    Skil.where(name: processed_skills).each do |skill|
+    Skill.where(name: processed_skills).each do |skill|
       user.skills << skill
     end
 

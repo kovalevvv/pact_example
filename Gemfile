@@ -63,3 +63,8 @@ group :test do
 end
 
 gem "active_interaction", "~> 5.5"
+
+gem "rspec-rails", "~> 7.1", :groups => [:development, :test]
+gem "factory_bot_rails", "~> 6.4", :groups => [:development, :test]
+gem "faker", "~> 3.5", :groups => [:development, :test]
+gem "database_cleaner", "~> 2.1", :groups => [:development, :test]

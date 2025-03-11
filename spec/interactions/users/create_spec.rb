@@ -46,9 +46,9 @@ RSpec.describe Users::Create, type: :interaction do
       end
 
       it 'связывает пользователя с указанными навыками' do
-        skill1 = create(:skil, name: 'Ruby')
-        skill2 = create(:skil, name: 'Rails')
-        skill3 = create(:skil, name: 'SQL')
+        skill1 = create(:skill, name: 'Ruby')
+        skill2 = create(:skill, name: 'Rails')
+        skill3 = create(:skill, name: 'SQL')
         
         user = Users::Create.run!(valid_attributes)
         
@@ -58,7 +58,7 @@ RSpec.describe Users::Create, type: :interaction do
       end
 
       it 'корректно обрабатывает навыки с пробелами' do
-        skill = create(:skil, name: 'Ruby')
+        skill = create(:skill, name: 'Ruby')
         attrs = valid_attributes.merge(skills: ' Ruby ')
         
         user = Users::Create.run!(attrs)
