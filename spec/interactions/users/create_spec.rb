@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Users::Create, type: :interaction do
   describe '#execute' do
-    let(:valid_attributes) do
+    let!(:valid_attributes) do
       {
         name: 'Иван',
         patronymic: 'Иванович',
         surname: 'Иванов',
-        email: 'ivan@example.com',
+        email: "ivan@example.com",
         age: 30,
         nationality: 'Русский',
         country: 'Россия',
@@ -106,21 +106,37 @@ RSpec.describe Users::Create, type: :interaction do
 
       it 'валидирует возраст' do
         # Слишком молодой
-        attrs = valid_attributes.merge(age: 0)
+        attrs = valid_attributes.merge(
+          age: 0,
+          email: 'age_test_1@example.com' # Уникальный email для каждого теста
+        )
         outcome = Users::Create.run(attrs)
         expect(outcome).to be_invalid
+        expect(outcome.errors[:age]).to be_present # Проверяем, что ошибка именно в возрасте
         
         # Слишком старый
-        attrs = valid_attributes.merge(age: 91)
+        attrs = valid_attributes.merge(
+          age: 91,
+          email: 'age_test_2@example.com'
+        )
         outcome = Users::Create.run(attrs)
         expect(outcome).to be_invalid
+        expect(outcome.errors[:age]).to be_present
         
         # Граничные значения
-        attrs = valid_attributes.merge(age: 1)
-        expect(Users::Create.run(attrs)).to be_valid
+        attrs = valid_attributes.merge(
+          age: 1,
+          email: 'age_test_3@example.com'
+        )
+        outcome = Users::Create.run(attrs)
+        expect(outcome).to be_valid
         
-        attrs = valid_attributes.merge(age: 90)
-        expect(Users::Create.run(attrs)).to be_valid
+        attrs = valid_attributes.merge(
+          age: 90,
+          email: 'age_test_4@example.com'
+        )
+        outcome = Users::Create.run(attrs)
+        expect(outcome).to be_valid
       end
 
       it 'валидирует пол' do
